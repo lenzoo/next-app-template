@@ -1,34 +1,13 @@
 'use client'
 import { Checkbox, Table } from "@mantine/core";
-
-export type ListFranchise = {
-    franchise_id : number,
-    name: string,
-    domain: string,
-    isCalendar_first_day: boolean
-
-}
+import { ListFranchise } from "./FranchisesList";
 
 
-async function getData() {
-    const res = await fetch('http://localhost:5154/api/Franchise/GetAllFranchises')
-        
-    // The return value is *not* serialized
-    // You can return Date, Map, Set, etc.
-   
-    if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
-      throw new Error('Failed to fetch data')
-    }
-   
-    const result : ListFranchise[] = await res.json();
-    console.log(result);
-     return result;
 
-     
-}
 
-const FranchiseTable = async () => {
+
+
+const FranchiseTable =  ({franchises } : {franchises :ListFranchise[]} )  => {
 
     const ths = (
         <Table.Tr>
@@ -39,7 +18,7 @@ const FranchiseTable = async () => {
         </Table.Tr>
       );
 
-    const rows  = (await getData()).map((res=>
+    const rows  = franchises.map((res=>
         <Table.Tr key={res.franchise_id}>
           <Table.Td>{res.franchise_id}</Table.Td>
           <Table.Td>{res.name}</Table.Td>
