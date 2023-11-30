@@ -3,10 +3,6 @@ import { Checkbox, Table } from "@mantine/core";
 import { ListFranchise } from "./FranchisesList";
 
 
-
-
-
-
 const FranchiseTable =  ({franchises } : {franchises :ListFranchise[]} )  => {
 
     const ths = (
@@ -24,7 +20,7 @@ const FranchiseTable =  ({franchises } : {franchises :ListFranchise[]} )  => {
           <Table.Td>{res.name}</Table.Td>
           <Table.Td>{res.domain}</Table.Td>
           <Table.Td><Checkbox
-                    checked = {res.isCalendar_first_day}
+                    defaultChecked = {res.isCalendar_first_day}
                     color="lime.4"
                     iconColor="dark.8"
                     size="md"

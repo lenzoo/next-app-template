@@ -1,6 +1,7 @@
 
+import { Container } from "@mantine/core";
+import FranchiseSelect from "./FranchiseSelect";
 import FranchiseTable from "./FranchiseTable";
-
 
 export type ListFranchise = {
     franchise_id : number,
@@ -28,7 +29,12 @@ const FranchisesList = async  () => {
     const data : ListFranchise[] = await getData();
   return (  
      
-     <FranchiseTable franchises={data}/>   
+    <>
+      <Container size="xs">
+        <FranchiseSelect franchises={data} />
+        {/* <FranchiseTable franchises={data} /> */}
+      </Container>     
+    </>
   )
 }
 
