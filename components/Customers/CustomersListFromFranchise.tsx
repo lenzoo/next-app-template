@@ -1,5 +1,5 @@
 
-import {Container, Text } from '@mantine/core';
+import {Container, Space, Text } from '@mantine/core';
 import CustomerTable from './CustomerTable';
 
 
@@ -39,11 +39,13 @@ const CustomersListFromFranchise = async ({franchiseId}: {franchiseId : number})
 
   const data : CustomerRespDTO[] =  await getData();
   return (
-    
-    <Container size="xl">
-      <div></div>
-        <CustomerTable customers={data} />
-    </Container>
+    <>
+        <Container size="xl">
+          <Space h="xl" />
+          <CustomerTable customers={data} />
+        </Container>
+    </>
+   
     
   )
 }
