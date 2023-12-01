@@ -1,14 +1,14 @@
 import { Welcome } from '../components/Welcome/Welcome';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import FranchisesList from '@/components/Franchises/FranchisesList';
 import CustomersListFromFranchise from '@/components/Customers/CustomersListFromFranchise';
+import CustomerTable from '@/components/Customers/CustomerTable';
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
     <>
       <Welcome />
-      <FranchisesList/>
-      <CustomersListFromFranchise franchiseId={540} />
+      <Link href="/franchises"> FranchiseList</Link>
     </>
   );
 }

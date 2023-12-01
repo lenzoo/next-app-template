@@ -1,54 +1,49 @@
 
+import {Container, Text } from '@mantine/core';
+import CustomerTable from './CustomerTable';
+
+
 
 export type CustomerRespDTO = {
 
-  Idd: number,
-  Name : string,
-  Erp_customer_code : string,
-  Fitter_app_send_automatic_notification? : boolean,
-  Fitter_app_send_manual_notification? : boolean,
-  Scheduled_job? : boolean,
-  Completed_job? : boolean,
-  Send_email_to_delivery_site_contact? : boolean
+  idd: number,
+  name : string,
+  erp_customer_code : string,
+  fitter_app_send_automatic_notification? : boolean,
+  fitter_app_send_manual_notification? : boolean,
+  scheduled_job? : boolean,
+  completed_job? : boolean,
+  send_email_to_delivery_site_contact? : boolean
 
 }
 
-const CustomersListFromFranchise = ({franchiseId}: {franchiseId : number}) => {
+const CustomersListFromFranchise = async ({franchiseId}: {franchiseId : number}) => {
 
   // const encodedValue  = encodeURIComponent(franchiseId);
   // const convertToNUmber : number = +encodedValue;
 
-  
-  
   async function getData() {
-    debugger;
-    let fran = franchiseId.toString()
-    const res = await fetch(`http://localhost:5120/GetCustomersfromFranchise?franchiseId=${franchiseId}`)
-    
-    // let url = new URL('http://localhost:5120/GetCustomersfromFranchise');
-    // let params = { franchise: '123'};
-    // url.searchParams.append(params.franchise,franchise.toString());
 
-    // const res1 = await fetch(url);
+    const res = await fetch(`http://localhost:5120/GetCustomersfromFranchise?franchiseId=${franchiseId}`)
     
     if (!res.ok) {
       // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to fetch data')
     }
    
-     const result  = await res.json();
+     const result : CustomerRespDTO[]  = await res.json();
       console.log(result);
     return result;
   
   }
 
-
+  const data : CustomerRespDTO[] =  await getData();
   return (
     
-    <>
-    <div>CustomersTable : {franchiseId} </div>
-    <div>Customer List  : {getData()} </div>
-    </>
+    <Container size="xl">
+      <div></div>
+        <CustomerTable customers={data} />
+    </Container>
     
   )
 }

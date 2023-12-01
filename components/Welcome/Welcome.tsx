@@ -10,10 +10,7 @@ export function Welcome() {
           <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
             InterFit
           </Text>
-        </Title>
-        
-    
-      
+        </Title>        
     </>
   );
 }

@@ -1,7 +1,7 @@
 
 import { Container } from "@mantine/core";
 import FranchiseSelect from "./FranchiseSelect";
-import FranchiseTable from "./FranchiseTable";
+
 
 export type ListFranchise = {
     franchise_id : number,
