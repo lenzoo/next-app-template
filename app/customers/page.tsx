@@ -4,7 +4,8 @@ import CustomersListFromFranchise from "@/components/Customers/CustomersListFrom
 const CustomersList = ({searchParams} : {searchParams : any}) => {
 
   return (
-    <CustomersListFromFranchise franchiseId ={searchParams['franchiseId']} /> 
+    <></>
+    // <CustomersListFromFranchise franchiseId ={searchParams['franchiseId']} /> 
   )
 }
 

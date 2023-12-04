@@ -1,5 +1,5 @@
 'use client'
-import { Checkbox, Group, Pagination, Table, TableData } from "@mantine/core";
+import { Checkbox, Group, LoadingOverlay, Pagination, Space, Table, TableData } from "@mantine/core";
 import { CustomerRespDTO } from "./CustomersListFromFranchise";
 import { useState } from "react";
 
@@ -79,10 +79,13 @@ const CustomerTable =  ({customers } : {customers :CustomerRespDTO[]} )  => {
 
   return (
     <>
-        <Table striped stickyHeader withRowBorders={false}>
+        <Table striped stickyHeader withRowBorders={false} captionSide="bottom">
+          {customers.length == 0 ?<Table.Caption>No customers found for the selected franchsie</Table.Caption> : null}
+          <Space h="xl" />
             <Table.Thead>{ths}</Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>       
         </Table >
+        <Space h="xl" />
         <Pagination.Root total={total} value={activePage} onChange={setPage}>
             <Group gap={5} justify="center">
                 <Pagination.First />

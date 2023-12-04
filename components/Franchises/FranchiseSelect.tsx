@@ -33,7 +33,7 @@ const FranchiseSelect = ({franchises } : {franchises :ListFranchise[]}) => {
       const params = new URLSearchParams();
       params.set("franchiseId", res.toString());
       
-      router.push("/customers" + "?" + params);
+      router.push("/franchises" + "?" + params);
       
     }
 

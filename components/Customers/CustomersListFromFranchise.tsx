@@ -30,8 +30,8 @@ const CustomersListFromFranchise = async ({franchiseId}: {franchiseId : number})
       // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to fetch data')
     }
-   
-     const result : CustomerRespDTO[]  = await res.json();
+    
+      const result : CustomerRespDTO[]  = await res.json();
       console.log(result);
     return result;
   
