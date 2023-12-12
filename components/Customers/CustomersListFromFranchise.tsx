@@ -1,6 +1,8 @@
 
 import {Container, Space, Text } from '@mantine/core';
 import CustomerTable from './CustomerTable';
+import { TableSort } from '../TableSort';
+import CustomTable from '../CustomerSortingTable/CustomTable';
 
 
 
@@ -9,11 +11,11 @@ export type CustomerRespDTO = {
   idd: number,
   name : string,
   erp_customer_code : string,
-  fitter_app_send_automatic_notification? : boolean,
-  fitter_app_send_manual_notification? : boolean,
-  scheduled_job? : boolean,
-  completed_job? : boolean,
-  send_email_to_delivery_site_contact? : boolean
+  fitter_app_send_automatic_notification : boolean,
+  fitter_app_send_manual_notification : boolean,
+  scheduled_job : boolean,
+  completed_job : boolean,
+  send_email_to_delivery_site_contact : boolean
 
 }
 
@@ -39,11 +41,10 @@ const CustomersListFromFranchise = async ({franchiseId}: {franchiseId : number})
 
   const data : CustomerRespDTO[] =  await getData();
   return (
-    <>
-        <Container size="xl">
+    <>        
           <Space h="xl" />
-          <CustomerTable customers={data} />
-        </Container>
+          {/* <CustomerTable customers={data} />    */}
+          <CustomTable customers={data} />  
     </>
    
     

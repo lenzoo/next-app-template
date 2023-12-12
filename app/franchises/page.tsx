@@ -13,7 +13,6 @@ const ListFranchises = ({searchParams} : {searchParams : any}) => {
     <FranchisesList />
       {searchParams['franchiseId'] == null ? <LoadingOverlay /> :
         <CustomersListFromFranchise franchiseId ={searchParams['franchiseId']} />
-     
       }
       
     </>

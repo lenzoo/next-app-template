@@ -39,19 +39,12 @@ const FranchiseSelect = ({franchises } : {franchises :ListFranchise[]}) => {
 
     
   return (
-    <>
-
       <Select
         label="Pick a Franchise from the list"
         placeholder="Pick value"
         data={franchiseNames}
         onChange={ e => getSelectedValue(e!)}
-      />
-      {/* <CustomersListFromFranchise franchiseId={idSelected} /> */}
-
-    </>
-    
-    
+      />     
   )
 }
 
