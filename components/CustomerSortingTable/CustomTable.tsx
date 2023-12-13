@@ -1,14 +1,17 @@
 'use client'
 
 
-import {FilterFn, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
+import {Column, ColumnFiltersState, FilterFn, SortingFn, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, sortingFns, useReactTable,Table as ReactTable, getFacetedUniqueValues, } from "@tanstack/react-table"
 import { CustomerRespDTO } from "../Customers/CustomersListFromFranchise"
-import { Checkbox, Group, Input, Pagination, Select, Space, Stack, Table } from "@mantine/core";
+import { Button, Checkbox, Flex, Group, Input, Pagination, Select, Space, Stack, Table } from "@mantine/core";
 import { useState } from "react";
 import {
     RankingInfo,
+    compareItems,
     rankItem,
   } from '@tanstack/match-sorter-utils'
+import FilterColumns from "../FilterColumns";
+import exportFile from "../ExportFile";
 
   declare module '@tanstack/table-core' {
     interface FilterFns {
@@ -29,21 +32,47 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
     // const total = Math.ceil(customers.length / itemsPerPage);
 
     const [globalFilter, setGlobalFilter] = useState('');
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
+
+    const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
+        let dir = 0
+      
+        // Only sort by rank if the column has ranking information
+        if (rowA.columnFiltersMeta[columnId]) {
+          dir = compareItems(
+            rowA.columnFiltersMeta[columnId]?.itemRank!,
+            rowB.columnFiltersMeta[columnId]?.itemRank!
+          )
+        }
+      
+        // Provide an alphanumeric fallback for when the item ranks are equal
+        return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
+      }
     
     const defaultColumns = [
         columnHelper.accessor('idd',{
             header: 'Customer Id'
         }),
         columnHelper.accessor('erp_customer_code',{
-            header: 'ERP Code'
+            header: 'ERP Code',
+            // sortingFn: fuzzySort
         }),
         columnHelper.accessor('name',{
-            header: 'Customer Name'
+            header: 'Customer Name',
+            // sortingFn: fuzzySort
         }),
         columnHelper.accessor('completed_job',{
             header: 'Job completed',
-            cell: info => <><Checkbox checked ={info.getValue()}></Checkbox></>
+            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+        }),
+        columnHelper.accessor('fitter_app_send_automatic_notification',{
+            header: 'Send automatic notification',
+            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+        }),
+        columnHelper.accessor('fitter_app_send_manual_notification',{
+            header: 'Send manual notification',
+            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
     ]
 
@@ -60,6 +89,8 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
         return itemRank.passed
     }
 
+    
+
     const table = useReactTable({
         data: customers,
         columns: defaultColumns,
@@ -67,16 +98,17 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
             fuzzy: fuzzyFilter,
         },
         state: {
+            
             globalFilter,
         },
-
-
         onGlobalFilterChange: setGlobalFilter,
         globalFilterFn: fuzzyFilter,              
         getCoreRowModel: getCoreRowModel<CustomerRespDTO>(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getFacetedUniqueValues: getFacetedUniqueValues(),
+        
     })
 
     // const activePageVal = <>{table.getState().pagination.pageIndex + 1} of{' '} {table.getPageCount()}</>
@@ -101,6 +133,11 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
                                 [header.column.getIsSorted() as string] ?? null}
                             </div>
                         )}
+                        {header.column.getCanFilter() ? (
+                          <>
+                            <FilterColumns column={header.column} table={table} />
+                          </>
+                        ) : null}
                         
                     </Table.Th>
                 ))}               
@@ -126,7 +163,6 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
         
     </>
     
-    console.log("check test 1",table.getRowModel().rows.filter(x => x._getAllVisibleCells().filter(c => c.getContext().getValue)));
   return (
     <>
         <Stack
@@ -135,7 +171,17 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
          align="center"
          
         >
-            <Input value={globalFilter ?? ''} onChange={e => setGlobalFilter(String(e.target.value))} placeholder="Search all columns..." ></Input>
+            <Flex
+                gap="md"
+                justify="center"
+                align="center"
+                direction="row"
+                wrap="wrap"
+            >
+                <Input value={globalFilter ?? ''} onChange={e => setGlobalFilter(String(e.target.value))} placeholder="Search all columns..." ></Input>
+                <Button variant="light" onClick={() => exportFile(table,'Filtered result')}> DownLoad Excel file</Button>
+            </Flex>
+            
 
             <Table striped stickyHeader withRowBorders={true} captionSide="bottom">
                 {customers.length == 0 ?<Table.Caption>No customers found for the selected franchsie</Table.Caption> : 
@@ -168,4 +214,6 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
 }
 
 export default CustomTable
+
+
 

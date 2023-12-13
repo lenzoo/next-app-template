@@ -42,9 +42,9 @@ const CustomersListFromFranchise = async ({franchiseId}: {franchiseId : number})
   const data : CustomerRespDTO[] =  await getData();
   return (
     <>        
-          <Space h="xl" />
-          {/* <CustomerTable customers={data} />    */}
-          <CustomTable customers={data} />  
+      <Space h="xl" />
+      {/* <CustomerTable customers={data} />    */}
+      <CustomTable customers={data} />  
     </>
    
     
