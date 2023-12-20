@@ -1,5 +1,5 @@
 
-import { TextInput } from '@mantine/core';
+import { Checkbox, TextInput } from '@mantine/core';
 import { useEffect, useState } from 'react'
 
 const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: any, table: any}) => {
@@ -14,16 +14,25 @@ const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: a
       setValue(initialValue)
     }, [initialValue])
 
-    const onBlur = () => {
-      tableMeta.updateData(row.index, column.id)
+    const onBlur = (value : string) => {
+      tableMeta.updateData(row.index, column.id,value)
       
     }
     console.log(tableMeta.editedRows[row.id]);
   return  (
-    <TextInput
-      value={value}
-      onBlur={onBlur}
-      onChange={(event) => setValue(event.currentTarget.value)}
+    // <TextInput
+    //   value={value}
+    //   // onBlur={onBlur}
+    //   onChange={(event) => {
+    //     setValue(event.currentTarget.value); 
+    //     onBlur(event.target.value);
+    //   }}
+    //   disabled={!tableMeta.editedRows[row.id]}
+    // />
+
+    <Checkbox
+      checked={value}
+      onChange={(event) => setValue(event.currentTarget.checked)}
       disabled={!tableMeta.editedRows[row.id]}
     />
   ) 

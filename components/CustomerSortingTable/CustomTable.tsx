@@ -14,7 +14,7 @@ import FilterColumns from "../FilterColumns";
 import exportFile from "../ExportFile";
 import EditCell from "../EditCell";
 import TableCell from "../TableCell";
-import updatedTableCell from "../UpdatedTableCell";
+
 
 
   declare module '@tanstack/table-core' {
@@ -58,7 +58,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
     useEffect(()=>{
       setData(customers);
     },[customers])
-    
+
     const defaultColumns = [
         columnHelper.accessor('idd',{
             header: 'Customer Id',
@@ -71,20 +71,23 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
         }),
         columnHelper.accessor('name',{
             header: 'Customer Name',
-            cell: TableCell                 
+            // cell: TableCell                 
             // sortingFn: fuzzySort
         }),
         columnHelper.accessor('completed_job',{
             header: 'Job completed',
-            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+            cell: TableCell
+            // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
         columnHelper.accessor('fitter_app_send_automatic_notification',{
             header: 'Send automatic notification',
-            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+            cell: TableCell
+            // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
         columnHelper.accessor('fitter_app_send_manual_notification',{
             header: 'Send manual notification',
-            cell: info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+            cell: TableCell
+            // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
         // columnHelper.display({
         //     id: 'close',
@@ -136,14 +139,14 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
                 );
               }
             },
-            updateData: (rowIndex: number, columnId: string, value: unknown) => {
+            updateData: (rowIndex: number, columnId: string, value: string) => {
               setData((old) => old.map((row, index) => {
                 if (index === rowIndex) {
                   return {
                     ...old[rowIndex],
                     [columnId]: value,
                   };
-                }
+                }else
                 return row;
               })
               );
