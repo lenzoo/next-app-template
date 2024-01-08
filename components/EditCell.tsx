@@ -23,14 +23,14 @@ const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
     };
     return meta?.editedRows[row.id]  ? (  
       <>
-          <Flex
-            align="flex-start"
-            direction="row"
-            gap={'md'}
-          >
-            <Button name="done"> <IconCheck></IconCheck></Button>  
-            <Button onClick={setEditedRows} name="cancel"> <IconX /></Button>
-          </Flex>
+        <Flex
+          align="flex-start"
+          direction="row"
+          gap={'md'}
+        >
+          <Button onClick={setEditedRows} name="done"> <IconCheck></IconCheck></Button>  
+          <Button onClick={setEditedRows} name="cancel"> <IconX /></Button>
+        </Flex>
       </>      
     ): (  
       <Button onClick={setEditedRows} name="edit"><IconPencil /></Button>                                                     

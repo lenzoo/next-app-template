@@ -1,9 +1,8 @@
 'use client'
 
-
-import {Column, ColumnFiltersState, FilterFn, SortingFn, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, sortingFns, useReactTable, getFacetedUniqueValues, ColumnDef,} from "@tanstack/react-table"
+import {FilterFn, SortingFn, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, sortingFns, useReactTable, getFacetedUniqueValues, ColumnDef,} from "@tanstack/react-table"
 import { CustomerRespDTO } from "../Customers/CustomersListFromFranchise"
-import { Button, Checkbox, CloseButton, Flex, Group, Input, Pagination, Select, Space, Stack, Table, Title } from "@mantine/core";
+import { Button,Flex, Group, Input, Pagination, Select, Space, Stack, Table, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
 import {
     RankingInfo,
@@ -143,7 +142,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
               setData((old) => old.map((row, index) => {
                 if (index === rowIndex) {
                   return {
-                    ...old[rowIndex],
+                    ...old[rowIndex]!,
                     [columnId]: value,
                   };
                 }else

@@ -14,11 +14,12 @@ const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: a
       setValue(initialValue)
     }, [initialValue])
 
-    const onBlur = (value : string) => {
+    const onBlur = (value : boolean) => {
+      setValue(value);
       tableMeta.updateData(row.index, column.id,value)
       
     }
-    console.log(tableMeta.editedRows[row.id]);
+    // console.log(tableMeta.editedRows[row.id]);
   return  (
     // <TextInput
     //   value={value}
@@ -32,7 +33,7 @@ const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: a
 
     <Checkbox
       checked={value}
-      onChange={(event) => setValue(event.currentTarget.checked)}
+      onChange={(event) => onBlur(event.currentTarget.checked) }
       disabled={!tableMeta.editedRows[row.id]}
     />
   ) 
