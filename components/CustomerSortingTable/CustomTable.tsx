@@ -78,6 +78,11 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
             cell: TableCell
             // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
+        columnHelper.accessor('scheduled_job',{
+          header: 'Job scheduled',
+          cell: TableCell
+          // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+        }),
         columnHelper.accessor('fitter_app_send_automatic_notification',{
             header: 'Send automatic notification',
             cell: TableCell
@@ -87,6 +92,11 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
             header: 'Send manual notification',
             cell: TableCell
             // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
+        }),
+        columnHelper.accessor('send_email_to_delivery_site_contact',{
+          header: 'Send email to delivery site contact',
+          cell: TableCell
+          // info => <><Checkbox defaultChecked ={info.getValue()}></Checkbox></>
         }),
         // columnHelper.display({
         //     id: 'close',
@@ -141,6 +151,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
             updateData: (rowIndex: number, columnId: string, value: string) => {
               setData((old) => old.map((row, index) => {
                 if (index === rowIndex) {
+                  console.log('updated values:',{...old[rowIndex]!,[columnId]: value});
                   return {
                     ...old[rowIndex]!,
                     [columnId]: value,
@@ -148,7 +159,9 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
                 }else
                 return row;
               })
+              
               );
+              
             },       
         },
         onGlobalFilterChange: setGlobalFilter,
@@ -199,29 +212,27 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
     
 
     const rows = 
-    <>
+      <>
         {
-            table.getRowModel().rows.map(row => (
+          table.getRowModel().rows.map(row => (
 
-                <Table.Tr key = {row.id}>
-                    {row.getVisibleCells().map(cell =>(
-                        <Table.Td key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell,cell.getContext())}                           
-                        </Table.Td>
-                    ))}
-                </Table.Tr>
-            ))
+              <Table.Tr key = {row.id}>
+                  {row.getVisibleCells().map(cell =>(
+                      <Table.Td key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell,cell.getContext())}                           
+                      </Table.Td>
+                  ))}
+              </Table.Tr>
+          ))
         }
-        
-    </>
+      </>
     
   return (
     <>
         <Stack
          h={300}
          bg="var(--mantine-color-body)"
-         align="center"
-         
+         align="center"         
         >
             <Flex
                 gap="md"
@@ -235,13 +246,13 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
             </Flex>
             
 
-            <Table striped stickyHeader withRowBorders={true} captionSide="bottom">
+            <Table striped  withRowBorders={true} captionSide="bottom">
                 {customers.length == 0 ?<Table.Caption>No customers found for the selected franchsie</Table.Caption> : 
-                <> 
-                <Space h="xl" />
-                    <Table.Thead>{ths}</Table.Thead>
-                    <Table.Tbody>{rows}</Table.Tbody>
-                </>
+                  <> 
+                    <Space h="xl" />
+                      <Table.Thead>{ths}</Table.Thead>
+                      <Table.Tbody>{rows}</Table.Tbody>
+                  </>
                 }
             </Table >
             
@@ -263,8 +274,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
 
                 </Group>
             </Pagination.Root>
-        </Stack>
-        
+        </Stack>        
     </>
     
   )
