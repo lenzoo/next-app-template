@@ -28,7 +28,7 @@ import TableCell from "../TableCell";
 const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
 
     const columnHelper = createColumnHelper<CustomerRespDTO>();
-    // const [activePage, setPage] = useState(1);
+    const [updateD, setupdateD] = useState({});
 
     // const itemsPerPage = 10;
     // const currPageData = customers.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage);
@@ -135,6 +135,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
         meta: {
             editedRows,
             setEditedRows,
+            updateD,
             revertData: (rowIndex: number, revert: boolean) => {
               if (revert) {
                 setData((old) =>
@@ -148,10 +149,11 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
                 );
               }
             },
-            updateData: (rowIndex: number, columnId: string, value: string) => {
+            updateData: (rowIndex: number, columnId: string, value: string) : any =>  {
               setData((old) => old.map((row, index) => {
                 if (index === rowIndex) {
-                  console.log('updated values:',{...old[rowIndex]!,[columnId]: value});
+                  console.log('updated values:',{...old[rowIndex]!,[columnId]: value});                 
+                  setupdateD({...old[rowIndex]!,[columnId]: value});
                   return {
                     ...old[rowIndex]!,
                     [columnId]: value,
@@ -161,7 +163,7 @@ const CustomTable = ({customers } : {customers :CustomerRespDTO[]} ) => {
               })
               
               );
-              
+              return updateD;
             },       
         },
         onGlobalFilterChange: setGlobalFilter,

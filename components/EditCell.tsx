@@ -8,12 +8,18 @@ const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
     const meta = table.options.meta;
 
     const setEditedRows = (e: MouseEvent<HTMLButtonElement>) => {
+      debugger;
         const elName = e.currentTarget.name;
         meta?.setEditedRows((old: []) => ({
         [row.id]: !old[Number(row.id)],
         }));
+        
         if (elName !== 'edit') {
-        meta?.revertData(row.index, e.currentTarget.name === 'cancel');
+          if(elName === 'done'){
+            const res = meta?.updateD;
+            console.log('editedRowVal: ', res);
+          }
+          meta?.revertData(row.index, e.currentTarget.name === 'cancel');
         }
     };
     // console.log(meta.editedRows[row.id],row.index);
@@ -21,6 +27,15 @@ const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
     const removeRow = () => {
         meta?.removeRow(row.index);
     };
+
+    const updateRowVal = (e: MouseEvent<HTMLButtonElement>) => {
+      const elName = e.currentTarget.name;
+      if (elName !== 'edit') {
+        const res = meta?.updateD;
+        console.log('editedRowVal: ', res);
+        meta?.revertData(row.index, e.currentTarget.name === 'cancel');
+      }
+    }
     return meta?.editedRows[row.id]  ? (  
       <>
         <Flex
