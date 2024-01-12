@@ -8,7 +8,6 @@ const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: a
     const [value, setValue] = useState(initialValue);
     // const columnMeta = column.columnDef.meta;
     const tableMeta = table.options.meta;
-    console.log(value);
 
     useEffect(() => {
       setValue(initialValue)
@@ -17,7 +16,6 @@ const TableCell = ({getValue,row,column,table}:{getValue: any,row: any,column: a
     const onBlur = (value : boolean) => {
       setValue(value);
       tableMeta.updateData(row.index, column.id,value)
-      
     }
     // console.log(tableMeta.editedRows[row.id]);
   return  (

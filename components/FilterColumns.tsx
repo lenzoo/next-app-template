@@ -23,14 +23,11 @@ const FilterColumns = ({column,table,}: {column: Column<any, unknown>,table: Rea
         return typeof firstValue === 'number' ? (
           <>
             <Flex
-
-                gap="sm"
-                justify="flex-start"
-                align="center"
-                direction="row"
-                wrap="wrap"
+              gap="xs"
+              justify="flex-start"
+              align="center"
+              direction="row"                
             >
-
               <NumberInput
                 value={(columnFilterValue as [number, number])?.[0] ?? ''}
                 onChange={e =>

@@ -2,13 +2,14 @@ import { Button, CloseButton, Flex, Space } from '@mantine/core';
 import { IconCheck, IconClearAll, IconPencil, IconX } from '@tabler/icons-react';
 import { Row, Table } from '@tanstack/react-table'
 import {MouseEvent} from 'react'
+import { CustomerRespDTO } from './Customers/CustomersListFromFranchise';
 
 const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
 
     const meta = table.options.meta;
 
     const setEditedRows = (e: MouseEvent<HTMLButtonElement>) => {
-      debugger;
+      
         const elName = e.currentTarget.name;
         meta?.setEditedRows((old: []) => ({
         [row.id]: !old[Number(row.id)],
@@ -17,7 +18,8 @@ const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
         if (elName !== 'edit') {
           if(elName === 'done'){
             const res = meta?.updateD;
-            console.log('editedRowVal: ', res);
+            console.log('editedRowVal: ', JSON.stringify(res));
+            updateRowVal(res);
           }
           meta?.revertData(row.index, e.currentTarget.name === 'cancel');
         }
@@ -28,14 +30,21 @@ const EditCell = ({row,table}: {row: Row<any>, table: any}) => {
         meta?.removeRow(row.index);
     };
 
-    const updateRowVal = (e: MouseEvent<HTMLButtonElement>) => {
-      const elName = e.currentTarget.name;
-      if (elName !== 'edit') {
-        const res = meta?.updateD;
-        console.log('editedRowVal: ', res);
-        meta?.revertData(row.index, e.currentTarget.name === 'cancel');
-      }
+    const  updateRowVal = (res : any) => {
+      debugger;
+       fetch('http://localhost:5120/UpdateCustomerData',{
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(res)
+       })
+       .then(response => response.json())
+       .then(json => console.log('api result from server: ',json))
+       .catch(err => console.error('Error: ', err));
+      
     }
+
     return meta?.editedRows[row.id]  ? (  
       <>
         <Flex

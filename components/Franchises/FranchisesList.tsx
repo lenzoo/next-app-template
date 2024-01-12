@@ -1,5 +1,5 @@
 
-import { Container } from "@mantine/core";
+import { Container, Loader, LoadingOverlay } from "@mantine/core";
 import FranchiseSelect from "./FranchiseSelect";
 
 
@@ -12,9 +12,7 @@ export type ListFranchise = {
 }
 
 async function getData() {
-    const res = await fetch('http://localhost:5120/GetAllFranchises')
-        
-    
+    const res = await fetch('http://localhost:5120/GetAllFranchises')    
     if (!res.ok) {
       // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to fetch data')
@@ -27,13 +25,15 @@ async function getData() {
 }
 const FranchisesList = async  () => {
     const data : ListFranchise[] = await getData();
-  return (  
-     
-    <>
-      <Container size="xs">
-        <FranchiseSelect franchises={data} />
-        {/* <FranchiseTable franchises={data} /> */}
-      </Container>     
+  return (      
+    <>   
+      {data.length == 0 ? <LoadingOverlay visible = {true} /> :
+        <Container size="xs">        
+          <FranchiseSelect franchises={data} />
+        </Container> 
+      }  
+          
+       {/* <FranchiseTable franchises={data} /> */}
     </>
   )
 }
